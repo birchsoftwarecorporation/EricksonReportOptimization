@@ -135,16 +135,15 @@
   <hop> <from>Select progress entries</from><to>Unique Foreman</to><enabled>Y</enabled> </hop>
   <hop> <from>Database lookup</from><to>Filter out blank entries</to><enabled>Y</enabled> </hop>
   <hop> <from>Remove Percent Sign</from><to>Database lookup</to><enabled>Y</enabled> </hop>
-  <hop> <from>Calc Percentage</from><to>Remove Percent Sign</to><enabled>Y</enabled> </hop>
+  <hop> <from>Calc Percentage</from><to>Remove Percent Sign</to><enabled>N</enabled> </hop>
   <hop> <from>Delete</from><to>Add Progress Entry</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add Type</from><to>Delete</to><enabled>Y</enabled> </hop>
   <hop> <from>Parse path</from><to>Split path</to><enabled>Y</enabled> </hop>
   <hop> <from>Select Columns</from><to>Parse path</to><enabled>Y</enabled> </hop>
   <hop> <from>Load Data</from><to>Select Columns</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Foreman</from><to>No New Foreman</to><enabled>Y</enabled> </hop>
   <hop> <from>Add MD5</from><to>Insert &#x2f; Update Lot</to><enabled>Y</enabled> </hop>
   <hop> <from>Pivot Budget</from><to>Add MD5</to><enabled>Y</enabled> </hop>
-  <hop> <from>Wait for New Foreman</from><to>Calc Percentage</to><enabled>Y</enabled> </hop>
+  <hop> <from>Wait for New Foreman</from><to>Calc Percentage</to><enabled>N</enabled> </hop>
   <hop> <from>Select progress entries</from><to>Wait for New Foreman</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter Foreman</from><to>Insert New Foreman</to><enabled>Y</enabled> </hop>
   <hop> <from>Lookup Foreman</from><to>Filter Foreman</to><enabled>Y</enabled> </hop>
@@ -181,11 +180,13 @@
   <hop> <from>Block for Lots</from><to>Lookup Lot ID</to><enabled>Y</enabled> </hop>
   <hop> <from>Insert &#x2f; Update Lot</from><to>Block for Lots</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter out blank entries</from><to>Merge Lot ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Lot ID</from><to>Add Type</to><enabled>Y</enabled> </hop>
   <hop> <from>Lookup Lot ID</from><to>Merge Lot ID</to><enabled>Y</enabled> </hop>
   <hop> <from>Not New Tract</from><to>Aggregate</to><enabled>Y</enabled> </hop>
   <hop> <from>Insert New Tract</from><to>Aggregate</to><enabled>Y</enabled> </hop>
   <hop> <from>Aggregate</from><to>Accumulate Tract</to><enabled>Y</enabled> </hop>
+  <hop> <from>Wait for New Foreman</from><to>Remove Percent Sign</to><enabled>Y</enabled> </hop>
+  <hop> <from>Merge Lot ID</from><to>Add Type</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add Type</from><to>Delete</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Accumulate</name>
@@ -385,7 +386,7 @@
         </field>
         <field>
           <column_name>calc_percentage</column_name>
-          <stream_name>calc_percentage</stream_name>
+          <stream_name>allocated_percent</stream_name>
         </field>
         <field>
           <column_name>foreman_id</column_name>
@@ -399,39 +400,6 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>186</xloc>
-      <yloc>793</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Add Type</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>type</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>Field</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>413</xloc>
       <yloc>793</yloc>
       <draw>Y</draw>
       </GUI>
@@ -668,7 +636,7 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>312</xloc>
+      <xloc>313</xloc>
       <yloc>793</yloc>
       <draw>Y</draw>
       </GUI>
@@ -753,24 +721,48 @@
  <conditions>
   <condition>
    <negated>N</negated>
-   <leftvalue>rownum</leftvalue>
-   <function>&#x3e;&#x3d;</function>
-   <rightvalue/>
-   <value><name>constant</name><type>Integer</type><text>32</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;</mask></value>   </condition>
+   <conditions>
+    <condition>
+     <negated>N</negated>
+     <leftvalue>rownum</leftvalue>
+     <function>&#x3c;&#x3d;</function>
+     <rightvalue/>
+     <value><name>constant</name><type>Integer</type><text>51</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;</mask></value>     </condition>
+    <condition>
+     <negated>N</negated>
+     <operator>AND</operator>
+     <leftvalue>rownum</leftvalue>
+     <function>&#x3e;&#x3d;</function>
+     <rightvalue/>
+     <value><name>constant</name><type>Integer</type><text>32</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value>     </condition>
+    </conditions>
+   </condition>
   <condition>
    <negated>N</negated>
-   <operator>AND</operator>
-   <leftvalue>rownum</leftvalue>
-   <function>&#x3c;&#x3d;</function>
-   <rightvalue/>
-   <value><name>constant</name><type>Integer</type><text>51</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;</mask></value>   </condition>
+   <operator>OR</operator>
+   <conditions>
+    <condition>
+     <negated>N</negated>
+     <leftvalue>rownum</leftvalue>
+     <function>&#x3e;&#x3d;</function>
+     <rightvalue/>
+     <value><name>constant</name><type>Integer</type><text>9</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value>     </condition>
+    <condition>
+     <negated>N</negated>
+     <operator>AND</operator>
+     <leftvalue>rownum</leftvalue>
+     <function>&#x3c;&#x3d;</function>
+     <rightvalue/>
+     <value><name>constant</name><type>Integer</type><text>19</text><length>-1</length><precision>0</precision><isnull>N</isnull><mask>&#x23;&#x3b;-&#x23;</mask></value>     </condition>
+    </conditions>
+   </condition>
   </conditions>
  </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>867</xloc>
-      <yloc>570</yloc>
+      <xloc>872</xloc>
+      <yloc>567</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1894,8 +1886,8 @@
            <schema_name/>
            </partitioning>
     <connection>jobcard extraction</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
@@ -2222,7 +2214,7 @@
            </partitioning>
     <fields>
       <field>
-        <in_stream_name>calc_percentage</in_stream_name>
+        <in_stream_name>allocated_percent</in_stream_name>
         <out_stream_name/>
         <use_regex>no</use_regex>
         <replace_string>&#x25;</replace_string>
@@ -2500,6 +2492,10 @@
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>tract</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>rownum</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -3128,6 +3124,36 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1099</xloc>
       <yloc>343</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add Type</name>
+    <type>ScriptValueMod</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <compatible>N</compatible>
+    <optimizationLevel>9</optimizationLevel>
+    <jsScripts>      <jsScript>        <jsScript_type>0</jsScript_type>
+        <jsScript_name>Script 1</jsScript_name>
+        <jsScript_script>&#x2f;&#x2f;Script here&#xd;&#xa;var type&#x3d;null&#x3b;&#xd;&#xa;if &#x28;rownum&#x3c;&#x3d;19&#x29; type&#x3d;&#x22;Prefab&#x22;&#x3b;&#xd;&#xa;else type&#x3d;&#x22;Field&#x22;&#x3b;</jsScript_script>
+      </jsScript>    </jsScripts>    <fields>      <field>        <name>type</name>
+        <rename>type</rename>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <replace>N</replace>
+      </field>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>428</xloc>
+      <yloc>794</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
