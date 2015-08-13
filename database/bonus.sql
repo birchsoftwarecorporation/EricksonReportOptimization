@@ -1,14 +1,14 @@
 select r.name as region, b.code as builder, t.name as tract, l.number as lot,  COALESCE(week1.foreman, week2.foreman, week3.foreman, week4.foreman, week5.foreman, week6.foreman, week7.foreman, week8.foreman, week9.foreman, week10.foreman) as foreman, 
-ROUND((COALESCE(week10.claim_percentage, week10.calc_percentage)*field_budget)-week10.labor_cost, 2) as week10,
-ROUND((COALESCE(week9.claim_percentage, week9.calc_percentage)*field_budget)-week9.labor_cost, 2) as week9,
-ROUND((COALESCE(week8.claim_percentage, week8.calc_percentage)*field_budget)-week8.labor_cost, 2) as week8,
-ROUND((COALESCE(week7.claim_percentage, week7.calc_percentage)*field_budget)-week7.labor_cost, 2) as week7,
-ROUND((COALESCE(week6.claim_percentage, week6.calc_percentage)*field_budget)-week6.labor_cost, 2) as week6,
-ROUND((COALESCE(week5.claim_percentage, week5.calc_percentage)*field_budget)-week5.labor_cost, 2) as week5,
-ROUND((COALESCE(week4.claim_percentage, week4.calc_percentage)*field_budget)-week4.labor_cost, 2) as week4,
-ROUND((COALESCE(week3.claim_percentage, week3.calc_percentage)*field_budget)-week3.labor_cost, 2) as week3,
+ROUND((COALESCE(week1.claim_percentage, week1.calc_percentage)*field_budget)-week1.labor_cost, 2) as week1,
 ROUND((COALESCE(week2.claim_percentage, week2.calc_percentage)*field_budget)-week2.labor_cost, 2) as week2,
-ROUND((COALESCE(week1.claim_percentage, week1.calc_percentage)*field_budget)-week1.labor_cost, 2) as week1
+ROUND((COALESCE(week3.claim_percentage, week3.calc_percentage)*field_budget)-week3.labor_cost, 2) as week3,
+ROUND((COALESCE(week4.claim_percentage, week4.calc_percentage)*field_budget)-week4.labor_cost, 2) as week4,
+ROUND((COALESCE(week5.claim_percentage, week5.calc_percentage)*field_budget)-week5.labor_cost, 2) as week5,
+ROUND((COALESCE(week6.claim_percentage, week6.calc_percentage)*field_budget)-week6.labor_cost, 2) as week6,
+ROUND((COALESCE(week7.claim_percentage, week7.calc_percentage)*field_budget)-week7.labor_cost, 2) as week7,
+ROUND((COALESCE(week8.claim_percentage, week8.calc_percentage)*field_budget)-week8.labor_cost, 2) as week8,
+ROUND((COALESCE(week9.claim_percentage, week9.calc_percentage)*field_budget)-week9.labor_cost, 2) as week9,
+ROUND((COALESCE(week10.claim_percentage, week10.calc_percentage)*field_budget)-week10.labor_cost, 2) as week10
 from region r
 left join region_builder rb on r.id = rb.region_id
 left join builder b on b.id = rb.builder_id
