@@ -121,7 +121,9 @@ CREATE TABLE `region` (
 /* Insert region values */
 LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
-INSERT INTO `region` VALUES (1,1,'P','AZ');
+INSERT INTO `region` VALUES (1,1,'P','AZF');
+INSERT INTO `region` VALUES (1,1,'Q','CAF');
+INSERT INTO `region` VALUES (1,1,'R','NVF');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 UNLOCK TABLES;
 
