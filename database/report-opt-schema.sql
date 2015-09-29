@@ -90,7 +90,7 @@ CREATE TABLE `lot` (
   `field_budget` double DEFAULT NULL,
   `field_hours` double DEFAULT NULL,
   `md5hash` varchar(255) COLLATE utf8_bin NOT NULL,
-  `number` int(11) NOT NULL,
+  `number` varchar(255) NOT NULL,
   `panel_budget` double DEFAULT NULL,
   `panel_hours` double DEFAULT NULL,
   `path` varchar(255) COLLATE utf8_bin DEFAULT NULL,
