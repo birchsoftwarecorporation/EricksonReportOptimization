@@ -910,7 +910,11 @@
     <foldername_field/>
     <limit>0</limit>
     <file>
-      <name>P&#x3a;&#x5c;Jobcards</name>
+      <name>G&#x3a;&#x5c;Jobcards</name>
+      <file_required>N</file_required>
+      <name>R&#x3a;&#x5c;Jobcards</name>
+      <file_required>N</file_required>
+      <name>S&#x3a;&#x5c;Jobcards</name>
       <file_required>N</file_required>
     </file>
      <cluster_schema/>
@@ -1239,7 +1243,7 @@
         </field>
         <field>
           <column_name>region_id</column_name>
-          <stream_name>regiond_id</stream_name>
+          <stream_name>region_id</stream_name>
         </field>
     </fields>
      <cluster_schema/>
