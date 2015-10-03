@@ -1937,7 +1937,7 @@
       </key>
       <value>
         <name>id</name>
-        <rename>regiond_id</rename>
+        <rename>region_id</rename>
         <default/>
         <type>Integer</type>
       </value>
