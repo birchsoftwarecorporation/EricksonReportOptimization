@@ -70,8 +70,6 @@
   <created_date>2015&#x2f;05&#x2f;17 16&#x3a;51&#x3a;23.000</created_date>
   <modified_user>admin</modified_user>
   <modified_date>2015&#x2f;06&#x2f;28 13&#x3a;26&#x3a;01.000</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
@@ -131,7 +129,6 @@
   <hop> <from>Lookup Tract</from><to>Check Tract Exists</to><enabled>Y</enabled> </hop>
   <hop> <from>Lookup Builder Tract</from><to>Lookup Tract</to><enabled>Y</enabled> </hop>
   <hop> <from>Unique Tract</from><to>Lookup Builder Tract</to><enabled>Y</enabled> </hop>
-  <hop> <from>Lookup New Builder</from><to>Link to Region</to><enabled>Y</enabled> </hop>
   <hop> <from>Lookup region</from><to>Add version</to><enabled>Y</enabled> </hop>
   <hop> <from>Trim All Fields</from><to>Lookup region</to><enabled>Y</enabled> </hop>
   <hop> <from>Select progress entries</from><to>Unique Foreman</to><enabled>Y</enabled> </hop>
@@ -169,8 +166,6 @@
   <hop> <from>Filter budget</from><to>Not Budget Item</to><enabled>Y</enabled> </hop>
   <hop> <from>Add File Filter</from><to>Get File Names</to><enabled>Y</enabled> </hop>
   <hop> <from>Get File Names</from><to>Load Data</to><enabled>Y</enabled> </hop>
-  <hop> <from>Insert New Builder</from><to>Accumulate</to><enabled>Y</enabled> </hop>
-  <hop> <from>Accumulate</from><to>Lookup New Builder</to><enabled>Y</enabled> </hop>
   <hop> <from>Add version</from><to>Wait for New Tract</to><enabled>Y</enabled> </hop>
   <hop> <from>Wait for New Tract</from><to>Filter budget</to><enabled>Y</enabled> </hop>
   <hop> <from>Select budget</from><to>Lookup Tract ID</to><enabled>Y</enabled> </hop>
@@ -190,30 +185,6 @@
   <hop> <from>Merge Lot ID</from><to>Add Type</to><enabled>Y</enabled> </hop>
   <hop> <from>Add Type</from><to>Delete</to><enabled>Y</enabled> </hop>
   </order>
-  <step>
-    <name>Accumulate</name>
-    <type>BlockingStep</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <pass_all_rows>Y</pass_all_rows>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>block</prefix>
-      <cache_size>5000</cache_size>
-      <compress>Y</compress>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>385</xloc>
-      <yloc>122</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step>
     <name>Accumulate Tract</name>
     <type>BlockingStep</type>
@@ -1101,6 +1072,10 @@
           <column_name>code</column_name>
           <stream_name>builder</stream_name>
         </field>
+        <field>
+          <column_name>region_id</column_name>
+          <stream_name>region_id</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -1202,52 +1177,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>167</xloc>
       <yloc>252</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Link to Region</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>jobcard extraction</connection>
-    <schema/>
-    <table>region_builder</table>
-    <commit>100</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>builder_id</column_name>
-          <stream_name>new_builder_id</stream_name>
-        </field>
-        <field>
-          <column_name>region_id</column_name>
-          <stream_name>region_id</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>129</xloc>
-      <yloc>122</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1587,6 +1516,12 @@
         <condition>&#x3d;</condition>
         <name2/>
       </key>
+      <key>
+        <name>region_id</name>
+        <field>region_id</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
       <value>
         <name>id</name>
         <rename>builder_id</rename>
@@ -1626,6 +1561,12 @@
       <key>
         <name>builder</name>
         <field>code</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>region_id</name>
+        <field>region_id</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
@@ -1735,48 +1676,6 @@
     </step>
 
   <step>
-    <name>Lookup New Builder</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>jobcard extraction</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>builder</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>builder</name>
-        <field>code</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id</name>
-        <rename>new_builder_id</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>253</xloc>
-      <yloc>122</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Lookup Tract</name>
     <type>DBLookup</type>
     <description/>
@@ -1800,6 +1699,12 @@
       <key>
         <name>tract</name>
         <field>name</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>builder_id</name>
+        <field>builder_id</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
@@ -2632,7 +2537,6 @@
         <format/>
         <group/>
         <decimal/>
-        <currency/>
         <length>-1</length>
         <precision>-1</precision>
         <nullif/>
@@ -2645,7 +2549,6 @@
         <format/>
         <group/>
         <decimal/>
-        <currency/>
         <length>-1</length>
         <precision>-1</precision>
         <nullif/>
@@ -3007,6 +2910,7 @@
       <reject_duplicate_row>N</reject_duplicate_row>
       <error_description/>
     <fields>      <field>        <name>builder</name>
+        </field>      <field>        <name>region_id</name>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>968</xloc>
@@ -3054,6 +2958,7 @@
       <error_description/>
     <fields>      <field>        <name>builder</name>
         </field>      <field>        <name>tract</name>
+        </field>      <field>        <name>region_id</name>
         </field>      </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>770</xloc>
