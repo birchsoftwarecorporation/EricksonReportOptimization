@@ -30,7 +30,6 @@ CREATE TABLE `builder` (
   `code` varchar(255) COLLATE utf8_bin NOT NULL,
   `region_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `builder_u` (`code`),
   KEY `builder_region_id` (`region_id`),
   CONSTRAINT `builder_region_id` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
@@ -123,24 +122,9 @@ CREATE TABLE `region` (
 
 LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
-INSERT INTO `region` VALUES (1,1,'G','AZF'),(2,1,'S','CAF'),(3,1,'R','NVF');
+INSERT INTO `region` VALUES (1,1,'G','AZF'),(2,1,'S','CAF'),(3,1,'R','NVF'),(4,1,'Z','SEO');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 UNLOCK TABLES;
-
-
---
--- Table structure for table `region_builder`
---
-
-DROP TABLE IF EXISTS `region_builder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `region_builder` (
-  `region_id` int(11) NOT NULL DEFAULT '0',
-  `builder_id` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`region_id`,`builder_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 
 --
@@ -156,7 +140,6 @@ CREATE TABLE `tract` (
   `name` varchar(255) COLLATE utf8_bin NOT NULL,
   `builder_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `tract_u` (`name`),
   KEY `builder_fk` (`builder_id`),
   CONSTRAINT `tract_ibfk_1` FOREIGN KEY (`builder_id`) REFERENCES `builder` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
